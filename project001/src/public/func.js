@@ -1,16 +1,16 @@
 import axios from "axios";
 
 export default {
-    ajaxGet (api, cb) {
+    ajaxGet (api, callback) {
         axios.get(api)
-            .then(cb)
+            .then(callback)
             .catch(err => {
                 console.log(err);
             })
     },
-    ajaxPost (api, post, cb) {
+    ajaxPost (api, post, callback) {
         axios.post(api, post)
-            .then(cb)
+            .then(callback)
             .catch(err => {
                 console.log(err);
             })

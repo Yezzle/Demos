@@ -1,5 +1,5 @@
 <template>
-   <div class="container-fluid">
+   <div class="container-fluid container-no-padding">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <!-- Just an image -->
                     <a class="navbar-brand" href="#">

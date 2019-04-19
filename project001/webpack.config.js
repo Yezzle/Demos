@@ -2,9 +2,10 @@ let path = require('path');
 let webpack = require('webpack');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const fileSystem = require('fs');
 let glob = require('glob');
-
 // js名必须与html的fileName对应
 let entry = (() => {
     let obj = {};
@@ -15,9 +16,18 @@ let entry = (() => {
     return obj;
 })();
 
+try{
+    fileSystem.unlinkSync('./dist');
+}catch(err){
+    if(err) {
+        console.log('dist删除失败：',err)
+    }else{
+        console.log('成功删除dist文件夹')
+    }
+}
 
 module.exports = {
-    entry: './src/js/index.js',
+    entry: entry,
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/',
@@ -128,17 +138,19 @@ if (process.env.NODE_ENV === 'production') {
                 NODE_ENV: '"production"'
             }
         }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     sourceMap: true,
-        //     compress: {
-        //         warnings: false
-        //     }
-        // }),
+        new CopyWebpackPlugin([{
+            from: './node_modules/bootstrap/dist/js/bootstrap.min.js',
+            to: './js',
+        },{
+            from: './node_modules/popper.js/dist/umd/popper.min.js',
+            to: './js',
+        },{
+            from: './node_modules/jquery/dist/jquery.slim.min.js',
+            to: './js',
+        }]),
         new webpack.LoaderOptionsPlugin({
             minimize: true
         }),
-
-
     ]);
 }
 
