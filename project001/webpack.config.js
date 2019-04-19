@@ -4,6 +4,7 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const fileSystem = require('fs');
 let glob = require('glob');
 // js名必须与html的fileName对应
@@ -125,19 +126,6 @@ module.exports = {
         // }),
         new VueLoaderPlugin(),
         new ExtractTextPlugin('css/[name].css'), //单独使用link标签加载css并设置路径，相对于output配置中的publicPath
-
-    ],
-};
-
-if (process.env.NODE_ENV === 'production') {
-    module.exports.devtool = '#source-map';
-    // http://vue-loader.vuejs.org/en/workflow/production.html
-    module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
         new CopyWebpackPlugin([{
             from: './node_modules/bootstrap/dist/js/bootstrap.min.js',
             to: './js',
@@ -151,9 +139,24 @@ if (process.env.NODE_ENV === 'production') {
             from: './node_modules/bootstrap/dist/css/bootstrap.min.css',
             to: './css'
         }]),
+        new CleanWebpackPlugin(),
+    ],
+};
+
+if (process.env.NODE_ENV === 'production') {
+    module.exports.devtool = '#source-map';
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    module.exports.plugins = (module.exports.plugins || []).concat([
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
+       
         new webpack.LoaderOptionsPlugin({
             minimize: true
         }),
+    
     ]);
 }
 
