@@ -147,6 +147,9 @@ if (process.env.NODE_ENV === 'production') {
         },{
             from: './node_modules/jquery/dist/jquery.slim.min.js',
             to: './js',
+        },{
+            from: './node_modules/bootstrap/dist/css/bootstrap.min.css',
+            to: './css'
         }]),
         new webpack.LoaderOptionsPlugin({
             minimize: true
