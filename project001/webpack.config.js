@@ -5,7 +5,6 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const fileSystem = require('fs');
 let glob = require('glob');
 // js名必须与html的fileName对应
 let entry = (() => {
@@ -16,16 +15,6 @@ let entry = (() => {
 
     return obj;
 })();
-
-try{
-    fileSystem.unlinkSync('./dist');
-}catch(err){
-    if(err) {
-        console.log('dist删除失败：',err)
-    }else{
-        console.log('成功删除dist文件夹')
-    }
-}
 
 module.exports = {
     entry: entry,
